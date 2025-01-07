@@ -19,6 +19,7 @@ async function fetchApi() {
       const data = await fetchApi();
       data.results.forEach(item => {
         console.log(item);
+        return(item);
       });
     } catch (error) {
       console.error("Failed to use API data:", error);
