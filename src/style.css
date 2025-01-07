@@ -1,5 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+body {
+    background-color: #1d1d1b;
+    color: #86affa;
+    font-family: "Lexend", serif;
+    text-align: center;
+    padding: 3rem;
+}
+
+#progress-bar {
+    height: 1rem;
+    border: 1px solid #86affa;
+    margin-bottom: 2rem;
+}
+
+h1 {
+    font-size: 6rem;
+}
+
+h2 {
+    margin-bottom: 2rem;
+}
+
+#answers-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 20rem;
+    margin: 0 auto;
+    margin-bottom: 2rem;
+}
+
+button {
+    padding: 0.6rem 0.8rem;
 }
