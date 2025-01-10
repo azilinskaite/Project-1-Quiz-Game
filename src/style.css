@@ -10,8 +10,8 @@
 :root {
   --base-color: #1d1d1b;
   --contrast: #86affa;
-  --wrong: #ff2424;
-  --correct: #00dc80;
+  --wrong: #ff401a;
+  --correct: #00e485;
 }
 
 body {
@@ -25,12 +25,6 @@ body {
   height: 1rem;
   border: 1px solid var(--contrast);
   margin-bottom: 2rem;
-  /* background: linear-gradient(
-    to right,
-    var(--contrast) 10%,
-    transparent 10%,
-    transparent 100%
-  ); */
 }
 
 h1 {
