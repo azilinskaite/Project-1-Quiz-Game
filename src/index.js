@@ -1,5 +1,6 @@
 import "./style.css";
 import { fetchApi } from "./fetchApi.js";
+import "./displayApiData.js";
 
 // homepage - start button
 

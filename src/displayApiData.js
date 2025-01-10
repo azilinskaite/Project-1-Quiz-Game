@@ -1,5 +1,3 @@
-import { fetchApi } from "./fetchApi.js";
-
 const question = document.getElementById("question");
 const answers = document.getElementsByClassName("answerBtn");
 
