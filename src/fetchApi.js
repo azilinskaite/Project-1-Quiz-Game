@@ -1,29 +1,55 @@
-async function fetchApi() {
-    const url = "https://opentdb.com/api.php?amount=10&category=12&difficulty=medium&type=multiple";
-    try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(`Response status: ${response.status}`);
-      }
-      const json = await response.json();
-      return json;
-    } catch (error) {
-      console.error("Failed to get data:", error.message);
-      throw error;
-    }
-  };
+// EMPTY ARRAY TO STORE QUESTIONS AFTER FETCHAPI FUNCTION IS EXECUTED
+let questionArray;
 
-  export async function getApiResults() {
-    try {
-    // data is an object, results are an array inside that object
-      const data = await fetchApi();
-      data.results.forEach(item => {
-        console.log(item);
-        return(item);
-      });
-    } catch (error) {
-      console.error("Failed to use API data:", error);
+// FETCHING API, RETURNING ARRAY OF QUESTION OBJECTS
+export async function fetchApi() {
+  const url =
+    "https://opentdb.com/api.php?amount=10&category=12&difficulty=medium&type=multiple";
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
     }
+    const jsonData = await response.json();
+    questionArray = jsonData.results;
+    return questionArray;
+  } catch (error) {
+    console.error("Failed to get data:", error.message);
+    throw error;
   }
+}
 
-  getApiResults();
+// fetchApi();
+
+fetchApi().then(() => {
+  console.log(questionArray);
+});
+
+
+// IMPORTUOTI DISPLAY FUNKCIJA
+
+
+// HANDLING DATA, TAKING OBJECT OUT OF AN ARRAY
+// export async function getData() {
+//   try {
+//     const data = await fetchApi();
+//     data.results.forEach(questionObject => {
+//       console.log(questionObject);
+//       return questionObject;
+//       // return questionObject.question;
+//     });
+//   } catch (error) {
+//     console.error("Failed to use API data:", error);
+//   }
+// }
+
+// Get each questionObject: question and answers separately
+// How to use these objects outside of the function?
+// How to get information outside, to be able to display it?
+
+
+
+
+
+
+
