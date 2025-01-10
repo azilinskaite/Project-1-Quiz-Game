@@ -1,15 +1,53 @@
 import "./style.css";
-import { fetchApi } from "./fetchApi.js";
-import "./displayApiData.js";
 
-// homepage - start button
+// EMPTY ARRAY TO STORE QUESTIONS AFTER FETCHAPI FUNCTION IS EXECUTED
+let questionArray;
+let questionNumber = 0;
+let score = 0;
+const questionContainer = document.getElementById("questionContainer");
+const startBtn = document.getElementById("startBtn");
+const nextBtn = document.getElementById("nextBtn");
 
-// quiz page
-// display question
-// display answer options
-// onclick show if answer is correct
-// count correct answers to get score
+// FETCHING API, RETURNING ARRAY OF QUESTION OBJECTS
+export async function fetchApi() {
+  const url =
+    "https://opentdb.com/api.php?amount=10&category=12&difficulty=medium&type=multiple";
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
+    const jsonData = await response.json();
+    questionArray = jsonData.results;
+    return questionArray;
+  } catch (error) {
+    console.error("Failed to get data:", error.message);
+    throw error;
+  }
+}
 
-// score page and try again button
+// fetchApi();
 
-// error page if info is missing - sorry we're down
+// START THE GAME WHEN START BUTTON IS CLICKED
+startBtn.addEventListener("click", () => {
+  startGame();
+});
+
+function startGame() {
+  startBtn.classList.add("hide");
+  questionContainer.classList.remove("hide");
+  nextBtn.classList.remove("hide");
+  generateQuestion();
+
+}
+
+// SHOW QUESTIONS & ANSWERS
+
+function generateQuestion() {
+    questionArray[questionNumber].question;
+
+}
+
+
+
+// ANSWER CLICKED
