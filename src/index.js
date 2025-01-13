@@ -94,7 +94,7 @@ function convertHTMLEntities(text) {
     .replace(/&#039;/g, "'")
     .replace(/&amp;/g, "&")
     .replace(/&ndash;/g, "-")
-    .replace(/&uuml;/g, "ü");
+    .replace(/&Uuml;/g, "ü");
 }
 
 // CHECK IF CLICKED ANSWER IS CORRECT
