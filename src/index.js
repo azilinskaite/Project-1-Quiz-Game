@@ -1,9 +1,10 @@
 import "./style.css";
+import scoreImage from './assets/vinyl.png';
 
 // EMPTY ARRAY TO STORE QUESTIONS AFTER FETCHAPI FUNCTION IS EXECUTED
 let questionArray;
-let randomAnswer;
 let questionNumber;
+let randomAnswer;
 let score;
 let progress;
 const questionContainer = document.getElementById("questionContainer");
@@ -12,6 +13,12 @@ const progressBar = document.getElementById("progressBar");
 const startBtn = document.getElementById("startBtn");
 const nextBtn = document.getElementById("nextBtn");
 const scorePage = document.getElementById("scorePage");
+// adding image to scorePage. What's a better way to do this?
+const scoreImageEl = document.createElement("img");
+scoreImageEl.src = scoreImage;
+scoreImageEl.alt = "Score image";
+scoreImageEl.classList.add("hide");
+scorePage.appendChild(scoreImageEl);
 
 // FETCHING API, RETURNING ARRAY OF QUESTION OBJECTS
 export async function fetchApi() {
@@ -72,12 +79,13 @@ function generateQuestion() {
   answersContainer.addEventListener(
     "click",
     (e) => {
-        if (e.target.matches(".answerBtn")) {
-            checkAnswer(e);
+      if (e.target.matches(".answerBtn")) {
+        checkAnswer(e);
       }
     },
     { once: true }
-  )};
+  );
+}
 
 // FUNCTION TO FIX STRANGE CHARACTERS IN QUESTIONS
 function convertHTMLEntities(text) {
@@ -127,6 +135,7 @@ function showScore() {
   nextBtn.classList.add("hide");
   startBtn.classList.remove("hide");
   scorePage.classList.remove("hide");
+  scoreImageEl.classList.remove("hide");
   document.querySelector("#scorePage h2").innerText = "Nice job!";
   document.querySelector("#scorePage p").innerText = `You scored: ${+score}`;
   startBtn.innerText = "Play again!";
