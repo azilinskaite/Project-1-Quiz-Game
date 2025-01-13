@@ -71,3 +71,8 @@ button {
 .hide {
   display: none;
 }
+
+#scorePage {
+  font-size: 1.4rem;
+  margin-bottom: 3rem;
+}

@@ -3,19 +3,20 @@ import "./style.css";
 // EMPTY ARRAY TO STORE QUESTIONS AFTER FETCHAPI FUNCTION IS EXECUTED
 let questionArray;
 let randomAnswer;
-let answerIndex;
-let questionNumber = 0;
-let score = 0;
-let progress = 0;
+let questionNumber;
+let score;
+let progress;
 const questionContainer = document.getElementById("questionContainer");
 const answersContainer = document.getElementById("answersContainer");
+const progressBar = document.getElementById("progressBar");
 const startBtn = document.getElementById("startBtn");
 const nextBtn = document.getElementById("nextBtn");
+const scorePage = document.getElementById("scorePage");
 
 // FETCHING API, RETURNING ARRAY OF QUESTION OBJECTS
 export async function fetchApi() {
   const url =
-    "https://opentdb.com/api.php?amount=10&category=12&difficulty=medium&type=multiple";
+    "https://opentdb.com/api.php?amount=10&category=12&difficulty=easy&type=multiple";
   try {
     const response = await fetch(url);
     if (!response.ok) {
@@ -39,37 +40,57 @@ startBtn.addEventListener("click", () => {
 
 function startGame() {
   startBtn.classList.add("hide");
+  scorePage.classList.add("hide");
   questionContainer.classList.remove("hide");
   nextBtn.classList.remove("hide");
+  questionNumber = 0;
+  score = 0;
+  progress = 0;
   generateQuestion();
 }
 
 // SHOW QUESTION & GENERATE A BUTTON FOR EACH ANSWER
 function generateQuestion() {
-  document.getElementById("question").innerText =
-    questionArray[questionNumber].question;
-  // if question innerText includes "&quot;" change to '"'
-  // if question innerText includes "&#039" change to "'"
-
+    progress += 10;
+  document.getElementById("question").innerText = convertHTMLEntities(
+    questionArray[questionNumber].question
+  );
   // COMBINE INCORRECT ANSWERS WITH CORRECT ONE
   const answers = [
     ...questionArray[questionNumber].incorrect_answers,
     questionArray[questionNumber].correct_answer,
   ];
+  // RANDOMIZE ANSWER POSITIONS
+  randomAnswer = answers.sort(() => Math.random() - 0.5);
   answers.forEach((answer) => {
     const button = document.createElement("button");
     button.classList.add("answerBtn");
-    button.textContent = answer;
+    button.textContent = convertHTMLEntities(answer);
     answersContainer.appendChild(button);
-    button.addEventListener("click", (e) => {
-      checkAnswer(e);
-    });
+    // ONLY ONE BUTTON CAN BE CLICKED
+    // How to prevent click on the gap?
+    answersContainer.addEventListener(
+      "click",
+      (e) => {
+        checkAnswer(e);
+      },
+      { once: true }
+    );
   });
-  // RANDOMIZE ANSWER POSITIONS
-  randomAnswer = answers.sort(() => Math.random() - 0.5);
-  answerIndex = 0;
+  // ONLY ONE BUTTON CAN BE CLICKED
+  //   button.addEventListener("click", (e) => {
+  //     checkAnswer(e);
+  //   }, { once: true });
+}
 
-  // click only one button at the time
+// FUNCTION TO FIX "&quot;", "&#039" CHARACTERS IN QUESTIONS
+function convertHTMLEntities(text) {
+  return text
+    .replace(/&quot;/g, '"')
+    .replace(/&#039;/g, "'")
+    .replace(/&amp;/g, "&")
+    .replace(/&ndash;/g, "-")
+    .replace(/&uuml;/g, "ü")
 }
 
 // CHECK IF CLICKED ANSWER IS CORRECT
@@ -83,16 +104,22 @@ function checkAnswer(e) {
   } else {
     selectedButton.classList.add("wrong-button");
   }
-  //remove event listener?
 }
 
 // NEXT BUTTON CLICK, UPDATE INDEX, UPDATE PROGRESS BAR, GENERATE NEW QUESTION, ETC.
 nextBtn.addEventListener("click", () => {
   answersContainer.innerHTML = "";
+  // REMOVE BACKGROUND COLOR FROM GAPS
+  // answersContainer.classList.remove(".wrong-button");
   questionNumber++;
-  progress += 10;
+//   progress += 10;
   updateProgressBar();
-  generateQuestion();
+  // CHECK IF THERE ARE QUESTIONS LEFT
+  if (questionArray.length > questionNumber) {
+    generateQuestion();
+  } else {
+    showScore();
+  }
 });
 
 // SHOW PROGRESS
@@ -100,16 +127,13 @@ function updateProgressBar() {
   progressBar.style.background = `linear-gradient(to right, var(--contrast) ${progress}%, transparent ${progress}%, transparent 100%)`;
 }
 
-// END GAME WHEN OUT OF QUESTIONS
-
-// SHOW SCORE PAGE
-
-//   if (questionArray.length > questionNumber = 10
-//   show score (instead of question)
-//   show restartBtn
-//   hide everything else
-// document.getElementById("restartBtn").addEventListener("click", () => {
-//     startGame();
-//   });
-
-// prideti rotating vinilo pics?
+// SHOW SCORE WHEN GAME IS OVER
+function showScore() {
+  questionContainer.classList.add("hide");
+  nextBtn.classList.add("hide");
+  startBtn.classList.remove("hide");
+  scorePage.classList.remove("hide");
+  document.querySelector("#scorePage h2").innerText = "Nice job!";
+  document.querySelector("#scorePage p").innerText = `You scored: ${+score}`;
+  startBtn.innerText = "Play again!";
+}
