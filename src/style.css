@@ -42,7 +42,7 @@ h2 {
   gap: 1rem;
   max-width: 20rem;
   margin: 0 auto;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 button {
@@ -54,6 +54,10 @@ button {
     background-color: var(--contrast);
     color: var(--base-color);
   }
+}
+
+#scoreCount {
+  margin-bottom: 2rem;
 }
 
 #startBtn, #nextBtn {

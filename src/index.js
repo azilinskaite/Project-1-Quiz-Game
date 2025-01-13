@@ -127,6 +127,7 @@ nextBtn.addEventListener("click", () => {
 // SHOW PROGRESS
 function updateProgressBar() {
   progressBar.style.background = `linear-gradient(to right, var(--contrast) ${progress}%, transparent ${progress}%, transparent 100%)`;
+  document.getElementById("scoreCount").innerText = `Score: ${+score}`;
 }
 
 // SHOW SCORE WHEN GAME IS OVER
