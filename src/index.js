@@ -45,52 +45,48 @@ function startGame() {
   nextBtn.classList.remove("hide");
   questionNumber = 0;
   score = 0;
-  progress = 0;
+  progress = 10;
+  updateProgressBar();
   generateQuestion();
 }
 
-// SHOW QUESTION & GENERATE A BUTTON FOR EACH ANSWER
+// SHOW QUESTION & GENERATE BUTTONS FOR ANSWERS
 function generateQuestion() {
-    progress += 10;
   document.getElementById("question").innerText = convertHTMLEntities(
     questionArray[questionNumber].question
   );
-  // COMBINE INCORRECT ANSWERS WITH CORRECT ONE
+  // combine incorrect and correct answers together
   const answers = [
     ...questionArray[questionNumber].incorrect_answers,
     questionArray[questionNumber].correct_answer,
   ];
-  // RANDOMIZE ANSWER POSITIONS
+  // randomize answer positions
   randomAnswer = answers.sort(() => Math.random() - 0.5);
   answers.forEach((answer) => {
     const button = document.createElement("button");
     button.classList.add("answerBtn");
     button.textContent = convertHTMLEntities(answer);
     answersContainer.appendChild(button);
-    // ONLY ONE BUTTON CAN BE CLICKED
-    // How to prevent click on the gap?
-    answersContainer.addEventListener(
-      "click",
-      (e) => {
-        checkAnswer(e);
-      },
-      { once: true }
-    );
   });
-  // ONLY ONE BUTTON CAN BE CLICKED
-  //   button.addEventListener("click", (e) => {
-  //     checkAnswer(e);
-  //   }, { once: true });
-}
+  // only one answer can be clicked per question
+  answersContainer.addEventListener(
+    "click",
+    (e) => {
+        if (e.target.matches(".answerBtn")) {
+            checkAnswer(e);
+      }
+    },
+    { once: true }
+  )};
 
-// FUNCTION TO FIX "&quot;", "&#039" CHARACTERS IN QUESTIONS
+// FUNCTION TO FIX STRANGE CHARACTERS IN QUESTIONS
 function convertHTMLEntities(text) {
   return text
     .replace(/&quot;/g, '"')
     .replace(/&#039;/g, "'")
     .replace(/&amp;/g, "&")
     .replace(/&ndash;/g, "-")
-    .replace(/&uuml;/g, "ü")
+    .replace(/&uuml;/g, "ü");
 }
 
 // CHECK IF CLICKED ANSWER IS CORRECT
@@ -106,15 +102,13 @@ function checkAnswer(e) {
   }
 }
 
-// NEXT BUTTON CLICK, UPDATE INDEX, UPDATE PROGRESS BAR, GENERATE NEW QUESTION, ETC.
+// NEXT BUTTON CLICK, UPDATE INDEX, PROGRESS BAR, GENERATE NEW QUESTION, ETC.
 nextBtn.addEventListener("click", () => {
   answersContainer.innerHTML = "";
-  // REMOVE BACKGROUND COLOR FROM GAPS
-  // answersContainer.classList.remove(".wrong-button");
   questionNumber++;
-//   progress += 10;
+  progress += 10;
   updateProgressBar();
-  // CHECK IF THERE ARE QUESTIONS LEFT
+  // check if there are questions left in array
   if (questionArray.length > questionNumber) {
     generateQuestion();
   } else {
