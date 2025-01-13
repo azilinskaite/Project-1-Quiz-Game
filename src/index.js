@@ -2,13 +2,15 @@ import "./style.css";
 
 // EMPTY ARRAY TO STORE QUESTIONS AFTER FETCHAPI FUNCTION IS EXECUTED
 let questionArray;
+let randomAnswer;
+let answerIndex;
 let questionNumber = 0;
 let score = 0;
+let progress = 0;
 const questionContainer = document.getElementById("questionContainer");
+const answersContainer = document.getElementById("answersContainer");
 const startBtn = document.getElementById("startBtn");
 const nextBtn = document.getElementById("nextBtn");
-const answersContainer = document.getElementById("answersContainer");
-let progress = 0;
 
 // FETCHING API, RETURNING ARRAY OF QUESTION OBJECTS
 export async function fetchApi() {
@@ -46,9 +48,10 @@ function startGame() {
 function generateQuestion() {
   document.getElementById("question").innerText =
     questionArray[questionNumber].question;
-  // if question includes "&quot;" change to '"'
-  // if question includes "&#039" change to "'"
+  // if question innerText includes "&quot;" change to '"'
+  // if question innerText includes "&#039" change to "'"
 
+  // COMBINE INCORRECT ANSWERS WITH CORRECT ONE
   const answers = [
     ...questionArray[questionNumber].incorrect_answers,
     questionArray[questionNumber].correct_answer,
@@ -62,7 +65,10 @@ function generateQuestion() {
       checkAnswer(e);
     });
   });
-  // randomize answers positions, shuffle. answers.sort by random index
+  // RANDOMIZE ANSWER POSITIONS
+  randomAnswer = answers.sort(() => Math.random() - 0.5);
+  answerIndex = 0;
+
   // click only one button at the time
 }
 
@@ -77,6 +83,7 @@ function checkAnswer(e) {
   } else {
     selectedButton.classList.add("wrong-button");
   }
+  //remove event listener?
 }
 
 // NEXT BUTTON CLICK, UPDATE INDEX, UPDATE PROGRESS BAR, GENERATE NEW QUESTION, ETC.
@@ -88,16 +95,21 @@ nextBtn.addEventListener("click", () => {
   generateQuestion();
 });
 
+// SHOW PROGRESS
 function updateProgressBar() {
-    progressBar.style.background = `linear-gradient(to right, var(--contrast) ${progress}%, transparent ${progress}%, transparent 100%)`;
-  }
+  progressBar.style.background = `linear-gradient(to right, var(--contrast) ${progress}%, transparent ${progress}%, transparent 100%)`;
+}
+
+// END GAME WHEN OUT OF QUESTIONS
 
 // SHOW SCORE PAGE
 
-//   when questionArray length = 10
+//   if (questionArray.length > questionNumber = 10
 //   show score (instead of question)
 //   show restartBtn
 //   hide everything else
 // document.getElementById("restartBtn").addEventListener("click", () => {
 //     startGame();
 //   });
+
+// prideti rotating vinilo pics?
