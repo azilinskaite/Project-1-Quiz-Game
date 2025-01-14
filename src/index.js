@@ -33,7 +33,7 @@ export async function fetchApi() {
     questionArray = jsonData.results;
     return questionArray;
   } catch (error) {
-    console.error("Failed to get data:", error.message);
+    document.getElementById("question").innerText = `Failed to get data: ${error.message}`;
     throw error;
   }
 }
