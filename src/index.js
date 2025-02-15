@@ -1,5 +1,5 @@
 import "./style.css";
-import scoreImage from './assets/vinyl.png';
+import scoreImage from "./assets/vinyl.png";
 
 // EMPTY ARRAY TO STORE QUESTIONS AFTER FETCHAPI FUNCTION IS EXECUTED
 let questionArray;
@@ -33,7 +33,9 @@ export async function fetchApi() {
     questionArray = jsonData.results;
     return questionArray;
   } catch (error) {
-    document.getElementById("question").innerText = `Failed to get data: ${error.message}`;
+    document.getElementById(
+      "question"
+    ).innerText = `Failed to get data: ${error.message}`;
     throw error;
   }
 }
@@ -68,7 +70,8 @@ function generateQuestion() {
     questionArray[questionNumber].correct_answer,
   ];
   // randomize answer positions
-  randomAnswer = answers.sort(() => Math.random() - 0.5);
+  // break out randomize function to separate function
+  randomAnswer = shuffleAnswers(answers);
   answers.forEach((answer) => {
     const button = document.createElement("button");
     button.classList.add("answerBtn");
@@ -85,6 +88,11 @@ function generateQuestion() {
     },
     { once: true }
   );
+}
+
+// function to shuffle answers for readability
+function shuffleAnswers(array) {
+  return array.sort(() => Math.random() - 0.5);
 }
 
 // FUNCTION TO FIX STRANGE CHARACTERS IN QUESTIONS
