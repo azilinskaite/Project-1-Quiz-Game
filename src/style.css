@@ -21,28 +21,32 @@ body {
   padding: 3rem;
 }
 
-#progressBar {
-  height: 1rem;
-  border: 1px solid var(--contrast);
-  margin-bottom: 2rem;
+#quizContainer {
+  /* background-color: beige; */
+  padding: 2rem;
+  h1 {
+    font-size: 6rem;
+    margin-bottom: 1.4rem;
+  }
 }
 
-h1 {
-  font-size: 6rem;
-  margin-bottom: 1.4rem;
-}
-
-h2 {
-  margin-bottom: 1.4rem;
-}
-
-#answersContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  max-width: 20rem;
-  margin: 0 auto;
-  margin-bottom: 1rem;
+#questionContainer {
+  #progressBar {
+    height: 1rem;
+    border: 1px solid var(--contrast);
+    margin-bottom: 2rem;
+  }
+  h2 {
+    margin-bottom: 1.4rem;
+  }
+  #answersContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 20rem;
+    margin: 0 auto;
+    margin-bottom: 1rem;
+  }
 }
 
 button {
