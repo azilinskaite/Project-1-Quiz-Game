@@ -7,13 +7,15 @@ let questionNumber;
 let randomAnswer;
 let score;
 let progress;
+// BY DEFAULT ANSWER IS NOT SELECTED
+let answerSelected = false;
 const questionContainer = document.getElementById("questionContainer");
 const answersContainer = document.getElementById("answersContainer");
 const progressBar = document.getElementById("progressBar");
 const startBtn = document.getElementById("startBtn");
 const nextBtn = document.getElementById("nextBtn");
 const scorePage = document.getElementById("scorePage");
-// adding image to scorePage. What's a better way to do this?
+// adding image to scorePage 
 const scoreImageEl = document.createElement("img");
 scoreImageEl.src = scoreImage;
 scoreImageEl.alt = "Score image";
@@ -45,6 +47,14 @@ startBtn.addEventListener("click", () => {
   startGame();
 });
 
+// EVENT LISTENER FOR ALL ANSWER BUTTONS
+answersContainer.addEventListener("click", (e) => {
+  // check answer if no answer was selected already
+  if (e.target.matches(".answerBtn") && !answerSelected) {
+    checkAnswer(e);
+  }
+});
+
 function startGame() {
   startBtn.classList.add("hide");
   scorePage.classList.add("hide");
@@ -62,6 +72,9 @@ function generateQuestion() {
   document.getElementById("question").innerText = convertHTMLEntities(
     questionArray[questionNumber].question
   );
+  // next button is disabled at the beginning
+  nextBtn.disabled = true;
+  answerSelected = false; 
   // combine incorrect and correct answers together
   const answers = [
     ...questionArray[questionNumber].incorrect_answers,
@@ -75,16 +88,16 @@ function generateQuestion() {
     button.textContent = convertHTMLEntities(answer);
     answersContainer.appendChild(button);
   });
-  // only one answer can be clicked per question
-  answersContainer.addEventListener(
-    "click",
-    (e) => {
-      if (e.target.matches(".answerBtn")) {
-        checkAnswer(e);
-      }
-    },
-    { once: true }
-  );
+  // // only one answer can be clicked per question
+  // answersContainer.addEventListener(
+  //   "click",
+  //   (e) => {
+  //     if (e.target.matches(".answerBtn")) {
+  //       checkAnswer(e);
+  //     }
+  //   },
+  //   { once: true }
+  // );
 }
 
 // FUNCTION TO FIX STRANGE CHARACTERS IN QUESTIONS
@@ -108,14 +121,22 @@ function checkAnswer(e) {
   } else {
     selectedButton.classList.add("wrong-button");
   }
+  answerSelected = true;
+  // NEXT BUTTON ENABLED ONLY WHEN ANSWER IS CLICKED
+  nextBtn.disabled = false;
 }
 
 // NEXT BUTTON CLICK, UPDATE INDEX, PROGRESS BAR, GENERATE NEW QUESTION, ETC.
 nextBtn.addEventListener("click", () => {
+  // button doesn't work if answer wasn't selected
+  if (!answerSelected) {
+    return;
+  }
   answersContainer.innerHTML = "";
   questionNumber++;
   progress += 10;
   updateProgressBar();
+  answerSelected = false;
   // check if there are questions left in array
   if (questionArray.length > questionNumber) {
     generateQuestion();
@@ -137,7 +158,11 @@ function showScore() {
   startBtn.classList.remove("hide");
   scorePage.classList.remove("hide");
   scoreImageEl.classList.remove("hide");
-  document.querySelector("#scorePage h2").innerText = "Nice job!";
+  if (score <= 5) {
+    document.querySelector("#scorePage h2").innerText = "You've tried!";
+  } else {
+    document.querySelector("#scorePage h2").innerText = "Great job!";
+  }
   document.querySelector("#scorePage p").innerText = `You scored: ${+score}`;
   startBtn.innerText = "Play again!";
 }
