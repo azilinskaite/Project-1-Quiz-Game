@@ -147,7 +147,7 @@ nextBtn.addEventListener("click", () => {
 
 // SHOW PROGRESS
 function updateProgressBar() {
-  progressBar.style.background = `linear-gradient(to right, var(--contrast) ${progress}%, transparent ${progress}%, transparent 100%)`;
+  progressBar.style.background = `linear-gradient(to right, var(--base-color) ${progress}%, transparent ${progress}%, transparent 100%)`;
   document.getElementById("scoreCount").innerText = `Score: ${+score}`;
 }
 
@@ -159,9 +159,9 @@ function showScore() {
   scorePage.classList.remove("hide");
   scoreImageEl.classList.remove("hide");
   if (score <= 5) {
-    document.querySelector("#scorePage h2").innerText = "You've tried!";
+    document.querySelector("#scorePage h3").innerText = "You've tried!";
   } else {
-    document.querySelector("#scorePage h2").innerText = "Great job!";
+    document.querySelector("#scorePage h3").innerText = "Great job!";
   }
   document.querySelector("#scorePage p").innerText = `You scored: ${+score}`;
   startBtn.innerText = "Play again!";
