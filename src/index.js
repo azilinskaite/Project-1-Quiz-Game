@@ -1,5 +1,6 @@
 import "./style.css";
 import scoreImage from "./assets/vinyl.png";
+// random comment for git
 
 // EMPTY ARRAY TO STORE QUESTIONS AFTER FETCHAPI FUNCTION IS EXECUTED
 let questionArray;
@@ -15,7 +16,7 @@ const progressBar = document.getElementById("progressBar");
 const startBtn = document.getElementById("startBtn");
 const nextBtn = document.getElementById("nextBtn");
 const scorePage = document.getElementById("scorePage");
-// adding image to scorePage 
+// adding image to scorePage
 const scoreImageEl = document.createElement("img");
 scoreImageEl.src = scoreImage;
 scoreImageEl.alt = "Score image";
@@ -76,7 +77,7 @@ function generateQuestion() {
   );
   // next button is disabled at the beginning
   nextBtn.disabled = true;
-  answerSelected = false; 
+  answerSelected = false;
   // combine incorrect and correct answers together
   const answers = [
     ...questionArray[questionNumber].incorrect_answers,
