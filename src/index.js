@@ -105,7 +105,8 @@ function convertHTMLEntities(text) {
     .replace(/&#039;/g, "'")
     .replace(/&amp;/g, "&")
     .replace(/&ndash;/g, "-")
-    .replace(/&Uuml;/g, "ü");
+    .replace(/&Uuml;/g, "ü")
+    .replace(/&eacute;/g, "é");
 }
 
 // CHECK IF CLICKED ANSWER IS CORRECT
